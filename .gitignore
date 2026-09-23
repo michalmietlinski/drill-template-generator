@@ -1,0 +1,8 @@
+node_modules/
+
+examples/*.json
+examples/README.md
+
+HARDWARE_STANDARDS.md
+REFERENCE_ANALYSIS.md
+IMPLEMENTATION_TODO.md
