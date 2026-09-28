@@ -95,6 +95,29 @@ input {
   cursor: pointer;
 }
 
+.paper-size-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.paper-size-field select {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: var(--ink);
+  background: var(--panel-strong);
+  cursor: pointer;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 600;
+}
+
 .layout {
   display: grid;
   grid-template-columns: minmax(360px, 1.05fr) minmax(320px, 0.95fr);

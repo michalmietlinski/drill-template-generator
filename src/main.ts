@@ -1,5 +1,6 @@
 import "./style.css";
 import { buildPreviewPath, buildStl, formatSummary, getEarPreviewShapes, resolveTemplate } from "./geometry";
+import { buildTemplatePdf, type PaperFormat } from "./pdf";
 import { defaultConfig, exampleAutoFitConfig, type TemplateConfig } from "./model";
 
 interface ExampleChoice {
@@ -366,6 +367,14 @@ function renderApp(): void {
             <button id="apply-config" type="button">Apply Config</button>
             <button id="download-json" type="button" class="secondary">Download JSON</button>
             <button id="download-stl" type="button" class="accent">Download STL</button>
+            <label class="paper-size-field">Paper
+              <select id="paper-size" aria-label="Paper size">
+                <option value="A4">A4</option>
+                <option value="A3">A3</option>
+                <option value="A2">A2</option>
+              </select>
+            </label>
+            <button id="download-pdf" type="button" class="secondary">Download PDF</button>
           </div>
           <div id="variable-panel" class="notes-card variable-panel" hidden>
             <h3>Variables</h3>
@@ -386,6 +395,7 @@ function renderApp(): void {
               <li>A cut-in cannot overlap an ear on the same edge.</li>
               <li>Relative spacing supports <strong>center</strong> and <strong>edge</strong> references for holes.</li>
               <li>Write <strong>$name</strong> where a number belongs. Set from, to, and step to generate one STL per combination.</li>
+              <li>PDF export is <strong>1:1 mm</strong> on A4, A3, or A2. Print at 100% actual size, not fit-to-page.</li>
             </ul>
           </div>
         </section>
@@ -393,7 +403,7 @@ function renderApp(): void {
         <section class="panel preview-panel">
           <div class="panel-heading">
             <h2>Preview</h2>
-            <p>Preview is 2D, export is STL.</p>
+            <p>Preview is 2D. Export is STL, or a 1:1 PDF on A4, A3, or A2.</p>
           </div>
           <div id="status"></div>
           <div id="summary" class="summary"></div>
@@ -427,8 +437,10 @@ function renderApp(): void {
   const variableFields = document.querySelector<HTMLDivElement>("#variable-fields");
   const generateVariantsButton = document.querySelector<HTMLButtonElement>("#generate-variants");
   const baseFilenameInput = document.querySelector<HTMLInputElement>("#base-filename");
+  const paperSizeSelect = document.querySelector<HTMLSelectElement>("#paper-size");
+  const downloadPdfButton = document.querySelector<HTMLButtonElement>("#download-pdf");
 
-  if (!textarea || !status || !summary || !previewSvg || !previewContent || !applyButton || !downloadJsonButton || !downloadStlButton || !exampleSelect || !variablePanel || !variableFields || !generateVariantsButton || !baseFilenameInput) {
+  if (!textarea || !status || !summary || !previewSvg || !previewContent || !applyButton || !downloadJsonButton || !downloadStlButton || !exampleSelect || !variablePanel || !variableFields || !generateVariantsButton || !baseFilenameInput || !paperSizeSelect || !downloadPdfButton) {
     return;
   }
 
@@ -513,14 +525,16 @@ function renderApp(): void {
       `;
 
       status.className = "status ok";
-      status.innerHTML = `<strong>Config valid.</strong><span> Preview and STL export are ready.</span>`;
+      status.innerHTML = `<strong>Config valid.</strong><span> Preview, STL, and 1:1 PDF export are ready.</span>`;
       downloadStlButton.disabled = false;
+      downloadPdfButton.disabled = false;
     } catch (error) {
       status.className = "status error";
       status.textContent = error instanceof Error ? error.message : String(error);
       previewContent.innerHTML = "";
       summary.innerHTML = "";
       downloadStlButton.disabled = true;
+      downloadPdfButton.disabled = true;
     }
   };
 
@@ -580,6 +594,7 @@ function renderApp(): void {
       previewContent.innerHTML = "";
       summary.innerHTML = "";
       downloadStlButton.disabled = true;
+      downloadPdfButton.disabled = true;
     }
   };
 
@@ -596,6 +611,17 @@ function renderApp(): void {
     const baseName = readBaseName();
     const stl = buildStl(lastResolved, baseName);
     downloadTextFile(`${baseName}.stl`, stl);
+  });
+  downloadPdfButton.addEventListener("click", () => {
+    if (!lastResolved) {
+      return;
+    }
+    const selected = paperSizeSelect.value;
+    const format: PaperFormat = selected === "A3" || selected === "A2" ? selected : "A4";
+    const pdf = buildTemplatePdf(lastResolved, format);
+    downloadBlob(`${readBaseName()}.pdf`, new Blob([pdf.data], { type: "application/pdf" }));
+    status.className = "status ok";
+    status.innerHTML = `<strong>Downloaded ${escapeHtml(readBaseName())}.pdf.</strong><span> ${escapeHtml(pdf.summary)}. In the print dialog, choose actual size.</span>`;
   });
   generateVariantsButton.addEventListener("click", () => {
     rememberVariableInputs();
