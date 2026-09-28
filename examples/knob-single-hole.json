@@ -1,0 +1,55 @@
+{
+  "plate": {
+    "shape": "rectangle",
+    "sizeMode": "fixed",
+    "width": 90,
+    "height": 60,
+    "thickness": 2,
+    "referenceEdges": {
+      "x": "left",
+      "y": "top"
+    }
+  },
+  "tabs": [
+    {
+      "id": "tab-top",
+      "enabled": true,
+      "mode": "custom",
+      "side": "top",
+      "depth": 3,
+      "height": 10,
+      "length": 36,
+      "offset": 27
+    }
+  ],
+  "holes": [
+    {
+      "id": "knob",
+      "shape": "circle",
+      "diameter": 5,
+      "position": {
+        "mode": "absolute",
+        "x": 45,
+        "y": 30
+      }
+    }
+  ],
+  "cutIns": [
+    {
+      "id": "mark-top-center",
+      "shape": "triangle",
+      "tabShape": "rectangle",
+      "edge": "top",
+      "width": 8,
+      "depth": 4,
+      "position": {
+        "mode": "relative",
+        "from": "knob",
+        "reference": "center",
+        "axis": "x",
+        "distance": 0,
+        "side": "positive"
+      }
+    }
+  ]
+}

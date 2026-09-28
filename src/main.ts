@@ -2,6 +2,69 @@ import "./style.css";
 import { buildPreviewPath, buildStl, formatSummary, getEarPreviewShapes, resolveTemplate } from "./geometry";
 import { defaultConfig, exampleAutoFitConfig, type TemplateConfig } from "./model";
 
+interface ExampleChoice {
+  id: string;
+  label: string;
+  config: TemplateConfig;
+}
+
+const builtinExamples: ExampleChoice[] = [
+  { id: "builtin-fixed", label: "Fixed layout", config: defaultConfig },
+  { id: "builtin-auto", label: "Auto-fit layout", config: exampleAutoFitConfig }
+];
+
+const exampleFileLabels: Record<string, string> = {
+  "handle-096-two-hole": "Handle 96 mm",
+  "handle-128-two-hole": "Handle 128 mm",
+  "handle-160-two-hole": "Handle 160 mm",
+  "handle-192-two-hole": "Handle 192 mm",
+  "handle-custom-110-two-hole": "Handle 110 mm",
+  "knob-single-hole": "Single knob",
+  "corner-template-handle-128": "Corner handle 128 mm",
+  "shelf-pin-row-32mm-5holes": "Shelf pin row, 32 mm",
+  "hinge-35mm-single": "Hinge 35 mm",
+  "hinge-35mm-pair": "Hinge pair 35 mm"
+};
+
+const exampleFileOrder = Object.keys(exampleFileLabels);
+
+const exampleFiles = import.meta.glob<TemplateConfig>("../examples/*.json", {
+  eager: true,
+  import: "default"
+});
+
+function exampleIdFromPath(path: string): string {
+  const fileName = path.split(/[/\\]/).pop() ?? path;
+  return fileName.replace(/\.json$/, "");
+}
+
+const fileExamples: ExampleChoice[] = Object.entries(exampleFiles)
+  .map(([path, config]) => {
+    const id = exampleIdFromPath(path);
+    return {
+      id,
+      label: exampleFileLabels[id] ?? id.replace(/-/g, " "),
+      config
+    };
+  })
+  .sort((left, right) => {
+    const leftIndex = exampleFileOrder.indexOf(left.id);
+    const rightIndex = exampleFileOrder.indexOf(right.id);
+    const leftRank = leftIndex === -1 ? exampleFileOrder.length : leftIndex;
+    const rightRank = rightIndex === -1 ? exampleFileOrder.length : rightIndex;
+    return leftRank - rightRank || left.label.localeCompare(right.label);
+  });
+
+const examplesById = new Map<string, TemplateConfig>(
+  [...builtinExamples, ...fileExamples].map((example) => [example.id, example.config])
+);
+
+function renderExampleOptions(examples: ExampleChoice[]): string {
+  return examples
+    .map((example) => `<option value="${escapeHtml(example.id)}">${escapeHtml(example.label)}</option>`)
+    .join("");
+}
+
 function cloneConfig<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
@@ -60,10 +123,17 @@ function renderApp(): void {
             circular holes, and triangular cut-ins directly in the browser.
           </p>
         </div>
-        <div class="hero-actions">
-          <button id="load-fixed" type="button">Load Fixed Example</button>
-          <button id="load-auto" type="button" class="secondary">Load Auto-Fit Example</button>
-        </div>
+        <label class="example-picker">
+          <span>Example</span>
+          <select id="example-select">
+            <optgroup label="Layouts">
+              ${renderExampleOptions(builtinExamples)}
+            </optgroup>
+            <optgroup label="Hardware">
+              ${renderExampleOptions(fileExamples)}
+            </optgroup>
+          </select>
+        </label>
       </header>
 
       <main class="layout">
@@ -125,10 +195,9 @@ function renderApp(): void {
   const applyButton = document.querySelector<HTMLButtonElement>("#apply-config");
   const downloadJsonButton = document.querySelector<HTMLButtonElement>("#download-json");
   const downloadStlButton = document.querySelector<HTMLButtonElement>("#download-stl");
-  const loadFixedButton = document.querySelector<HTMLButtonElement>("#load-fixed");
-  const loadAutoButton = document.querySelector<HTMLButtonElement>("#load-auto");
+  const exampleSelect = document.querySelector<HTMLSelectElement>("#example-select");
 
-  if (!textarea || !status || !summary || !previewSvg || !previewContent || !applyButton || !downloadJsonButton || !downloadStlButton || !loadFixedButton || !loadAutoButton) {
+  if (!textarea || !status || !summary || !previewSvg || !previewContent || !applyButton || !downloadJsonButton || !downloadStlButton || !exampleSelect) {
     return;
   }
 
@@ -158,6 +227,20 @@ function renderApp(): void {
         )
         .join("");
 
+      const cutInGuides = resolved.cutIns
+        .map((cutIn) => {
+          const midX = resolved.plate.width ;
+          const midY = resolved.plate.height;
+          if (cutIn.edge === "top") {
+            return `<line class="cutin-guide" x1="${cutIn.anchorX}" y1="0" x2="${cutIn.anchorX}" y2="${midY}"></line>`;
+          }
+          if (cutIn.edge === "left") {
+            return `<line class="cutin-guide" x1="0" y1="${cutIn.anchorY}" x2="${midX}" y2="${cutIn.anchorY}"></line>`;
+          }
+          return `<line class="cutin-guide" x1="${resolved.plate.width}" y1="${cutIn.anchorY}" x2="${midX}" y2="${cutIn.anchorY}"></line>`;
+        })
+        .join("");
+
       const cutInMarks = resolved.cutIns
         .map((cutIn) => {
           const x = cutIn.edge === "top" ? cutIn.anchorX + 2 : cutIn.edge === "left" ? 2 : resolved.plate.width - cutIn.depth - 12;
@@ -177,6 +260,7 @@ function renderApp(): void {
       previewContent.innerHTML = `
         <path class="template-fill" d="${previewPath}" fill-rule="evenodd"></path>
         ${earPaths}
+        ${cutInGuides}
         <line class="axis-line" x1="0" y1="${resolved.bounds.minY - padding}" x2="0" y2="${resolved.bounds.maxY + padding}"></line>
         <line class="axis-line" x1="${resolved.bounds.minX - padding}" y1="0" x2="${resolved.bounds.maxX + padding}" y2="0"></line>
         <text class="axis-label" x="2" y="${resolved.bounds.minY - 2}">x = 0</text>
@@ -233,13 +317,12 @@ function renderApp(): void {
     const stl = buildStl(lastResolved, makeFilename("template"));
     downloadTextFile(`${makeFilename("template")}.stl`, stl);
   });
-  loadFixedButton.addEventListener("click", () => {
-    currentConfig = cloneConfig(defaultConfig);
-    textarea.value = formatJson(currentConfig);
-    renderResolved();
-  });
-  loadAutoButton.addEventListener("click", () => {
-    currentConfig = cloneConfig(exampleAutoFitConfig);
+  exampleSelect.addEventListener("change", () => {
+    const config = examplesById.get(exampleSelect.value);
+    if (!config) {
+      return;
+    }
+    currentConfig = cloneConfig(config);
     textarea.value = formatJson(currentConfig);
     renderResolved();
   });

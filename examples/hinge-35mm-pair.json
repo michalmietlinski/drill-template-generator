@@ -1,0 +1,49 @@
+{
+  "plate": {
+    "shape": "rectangle",
+    "sizeMode": "fixed",
+    "width": 90,
+    "height": 190,	
+    "thickness": 2,
+    "referenceEdges": {
+      "x": "left",
+      "y": "top"
+    }
+  },
+  "tabs": [
+    {
+      "id": "tab-left",
+      "enabled": true,
+      "mode": "full",
+      "side": "left",
+      "depth": 3,
+      "height": 10
+    }
+  ],
+  "holes": [
+    {
+      "id": "cup-top",
+      "shape": "circle",
+      "diameter": 35,
+      "position": {
+        "mode": "absolute",
+        "x": 24,
+        "y": 45
+      }
+    },
+    {
+      "id": "cup-bottom",
+      "shape": "circle",
+      "diameter": 35,
+      "position": {
+        "mode": "relative",
+        "from": "cup-top",
+        "reference": "center",
+        "axis": "y",
+        "distance": 95,
+        "side": "positive"
+      }
+    }
+  ],
+  "cutIns": []
+}

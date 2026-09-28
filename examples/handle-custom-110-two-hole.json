@@ -1,0 +1,98 @@
+{
+  "plate": {
+    "shape": "rectangle",
+    "sizeMode": "fixed",
+    "width": 152,
+    "height": 45,
+    "thickness": 2,
+    "referenceEdges": {
+      "x": "left",
+      "y": "top"
+    }
+  },
+  "tabs": [
+    {
+      "id": "tab-top",
+      "enabled": true,
+      "mode": "full",
+      "side": "top",
+      "depth": 3,
+      "height": 14
+    }
+  ],
+  "holes": [
+    {
+      "id": "h1",
+      "shape": "circle",
+      "diameter": 6,
+      "position": {
+        "mode": "absolute",
+        "x": 20,
+        "y": 22
+      }
+    },
+    {
+      "id": "h2",
+      "shape": "circle",
+      "diameter": 6,
+      "position": {
+        "mode": "relative",
+        "from": "h1",
+        "reference": "center",
+        "axis": "x",
+        "distance": 110,
+        "side": "positive"
+      }
+    }
+  ],
+  "cutIns": [
+    {
+      "id": "mark-top-1",
+      "shape": "triangle",
+      "tabShape": "rectangle",
+      "edge": "top",
+      "width": 8,
+      "depth": 4,
+      "position": {
+        "mode": "relative",
+        "from": "h1",
+        "reference": "center",
+        "axis": "x",
+        "distance": 0,
+        "side": "positive"
+      }
+    },
+    {
+      "id": "mark-top-center",
+      "shape": "triangle",
+      "tabShape": "rectangle",
+      "edge": "top",
+      "width": 8,
+      "depth": 4,
+      "position": {
+        "mode": "relative",
+        "from": "h1",
+        "reference": "center",
+        "axis": "x",
+        "distance": 55,
+        "side": "positive"
+      }
+    },
+    {
+      "id": "mark-top-2",
+      "shape": "triangle",
+      "tabShape": "rectangle",
+      "edge": "top",
+      "width": 8,
+      "depth": 4,
+      "position": {
+        "mode": "relative",
+        "from": "h2",
+        "reference": "center",
+        "axis": "x",
+        "distance": 0,
+        "side": "positive"
+      }
+    }
+  ]
+}

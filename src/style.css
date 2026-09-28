@@ -29,7 +29,8 @@ body {
 }
 
 button,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -69,10 +70,28 @@ textarea {
   font-size: 1rem;
 }
 
-.hero-actions {
+.example-picker {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  gap: 6px;
+  min-width: min(280px, 100%);
+}
+
+.example-picker span {
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.example-picker select {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: var(--ink);
+  background: var(--panel-strong);
+  cursor: pointer;
 }
 
 .layout {
@@ -293,6 +312,13 @@ button:disabled {
   stroke: rgba(35, 49, 58, 0.5);
   stroke-dasharray: 2 2;
   stroke-width: 0.8;
+}
+
+.cutin-guide {
+  stroke: #8c3210;
+  stroke-dasharray: 2.2 1.5;
+  stroke-width: 0.7;
+  stroke-linecap: round;
 }
 
 @media (max-width: 1100px) {

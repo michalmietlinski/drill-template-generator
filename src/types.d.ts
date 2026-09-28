@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 declare module "polygon-clipping" {
   const polygonClipping: {
     union: (...geometries: unknown[]) => unknown;

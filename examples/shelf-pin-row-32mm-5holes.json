@@ -1,0 +1,90 @@
+{
+  "plate": {
+    "shape": "rectangle",
+    "sizeMode": "fixed",
+    "width": 40,
+    "height": 180,
+    "thickness": 2,
+    "referenceEdges": {
+      "x": "left",
+      "y": "top"
+    }
+  },
+  "tabs": [
+    {
+      "id": "tab-left",
+      "enabled": true,
+      "mode": "custom",
+      "side": "left",
+      "depth": 3,
+      "height": 10,
+      "length": 90,
+      "offset": 20
+    }
+  ],
+  "holes": [
+    {
+      "id": "p1",
+      "shape": "circle",
+      "diameter": 5,
+      "position": {
+        "mode": "absolute",
+        "x": 20,
+        "y": 20
+      }
+    },
+    {
+      "id": "p2",
+      "shape": "circle",
+      "diameter": 5,
+      "position": {
+        "mode": "relative",
+        "from": "p1",
+        "reference": "center",
+        "axis": "y",
+        "distance": 32,
+        "side": "positive"
+      }
+    },
+    {
+      "id": "p3",
+      "shape": "circle",
+      "diameter": 5,
+      "position": {
+        "mode": "relative",
+        "from": "p2",
+        "reference": "center",
+        "axis": "y",
+        "distance": 32,
+        "side": "positive"
+      }
+    },
+    {
+      "id": "p4",
+      "shape": "circle",
+      "diameter": 5,
+      "position": {
+        "mode": "relative",
+        "from": "p3",
+        "reference": "center",
+        "axis": "y",
+        "distance": 32,
+        "side": "positive"
+      }
+    },
+    {
+      "id": "p5",
+      "shape": "circle",
+      "diameter": 5,
+      "position": {
+        "mode": "relative",
+        "from": "p4",
+        "reference": "center",
+        "axis": "y",
+        "distance": 32,
+        "side": "positive"
+      }
+    }
+  ],
+  "cutIns": []
+}

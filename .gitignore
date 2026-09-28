@@ -1,6 +1,5 @@
 node_modules/
 
-examples/*.json
 examples/README.md
 
 HARDWARE_STANDARDS.md

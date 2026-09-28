@@ -1,0 +1,108 @@
+{
+  "plate": {
+    "shape": "rectangle",
+    "sizeMode": "fixed",
+    "width": 170,
+    "height": 60,
+    "thickness": 2,
+    "referenceEdges": {
+      "x": "left",
+      "y": "top"
+    }
+  },
+  "tabs": [
+    {
+      "id": "tab-top",
+      "enabled": true,
+      "mode": "full",
+      "side": "top",
+      "depth": 3,
+      "height": 16
+    },
+    {
+      "id": "tab-right",
+      "enabled": true,
+      "mode": "custom",
+      "side": "right",
+      "depth": 3,
+      "height": 16,
+      "length": 44,
+      "offset": 8
+    }
+  ],
+  "holes": [
+    {
+      "id": "h1",
+      "shape": "circle",
+      "diameter": 5,
+      "position": {
+        "mode": "absolute",
+        "x": 20,
+        "y": 30
+      }
+    },
+    {
+      "id": "h2",
+      "shape": "circle",
+      "diameter": 5,
+      "position": {
+        "mode": "relative",
+        "from": "h1",
+        "reference": "center",
+        "axis": "x",
+        "distance": 128,
+        "side": "positive"
+      }
+    }
+  ],
+  "cutIns": [
+    {
+      "id": "mark-top-left",
+      "shape": "triangle",
+      "tabShape": "rectangle",
+      "edge": "top",
+      "width": 8,
+      "depth": 4,
+      "position": {
+        "mode": "relative",
+        "from": "h1",
+        "reference": "center",
+        "axis": "x",
+        "distance": 0,
+        "side": "positive"
+      }
+    },
+    {
+      "id": "mark-top-center",
+      "shape": "triangle",
+      "tabShape": "rectangle",
+      "edge": "top",
+      "width": 8,
+      "depth": 4,
+      "position": {
+        "mode": "relative",
+        "from": "h1",
+        "reference": "center",
+        "axis": "x",
+        "distance": 64,
+        "side": "positive"
+      }
+    },
+    {
+      "id": "mark-top-right",
+      "shape": "triangle",
+      "tabShape": "rectangle",
+      "edge": "top",
+      "width": 8,
+      "depth": 4,
+      "position": {
+        "mode": "relative",
+        "from": "h2",
+        "reference": "center",
+        "axis": "x",
+        "distance": 0,
+        "side": "positive"
+      }
+    }
+  ]
+}
