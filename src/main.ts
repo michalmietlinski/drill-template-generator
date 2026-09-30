@@ -324,6 +324,77 @@ function variantFilename(base: string, values: Record<string, number>, order: st
   return `${base}_${parts.join("_")}`;
 }
 
+const otherProjects: Array<{ title: string; href: string; detail: string }> = [
+  {
+    title: "Hole Covers STL Generator",
+    href: "https://michalmietlinski.github.io/hole-generator/",
+    detail: "Parametric hole covers for furniture and cable pass-throughs."
+  },
+  {
+    title: "Text Rectangle Generator",
+    href: "https://michalmietlinski.github.io/stl-text-plate/",
+    detail: "Rectangular plate with raised text for 3D printing."
+  },
+  {
+    title: "Font to STL",
+    href: "https://michalmietlinski.github.io/text-to-stl/",
+    detail: "STL letters from TTF or OTF text."
+  },
+  {
+    title: "Washer STL Generator",
+    href: "https://michalmietlinski.github.io/washer_generator/",
+    detail: "Printable washer STLs from a few dimensions."
+  },
+  {
+    title: "Adapter STL Generator",
+    href: "https://michalmietlinski.github.io/adapter-generator/",
+    detail: "Hollow adapter between a vacuum hose and a tool port."
+  },
+  {
+    title: "Battery Holder Designer",
+    href: "https://michalmietlinski.github.io/battery-holder-generator/",
+    detail: "Battery holders from the cell dimensions."
+  },
+  {
+    title: "Box Drawer Divider",
+    href: "https://michalmietlinski.github.io/box-drawer-divider-generator/",
+    detail: "Divider layouts for boxes and drawers."
+  },
+  {
+    title: "Braille Label Generator",
+    href: "https://michalmietlinski.github.io/braille-label-generator/",
+    detail: "Braille labels for 3D printing."
+  },
+  {
+    title: "Stencil / form generator",
+    href: "https://michalmietlinski.github.io/stencil-form-text-generator/",
+    detail: "Cut text as stencil holes or form pockets."
+  },
+  {
+    title: "fast-read",
+    href: "https://michalmietlinski.github.io/fastread/",
+    detail: "Practice reading faster."
+  },
+  {
+    title: "Warsaw Concerts Calendar",
+    href: "https://michalmietlinski.github.io/concerts-list/",
+    detail: "Concert listings for Warsaw."
+  }
+];
+
+function renderOtherProjects(): string {
+  return otherProjects
+    .map(
+      (project) => `
+        <a class="project-card" href="${escapeHtml(project.href)}" target="_blank" rel="noopener noreferrer">
+          <span class="project-title">${escapeHtml(project.title)}</span>
+          <span class="project-detail">${escapeHtml(project.detail)}</span>
+        </a>
+      `
+    )
+    .join("");
+}
+
 function renderApp(): void {
   const app = document.querySelector<HTMLDivElement>("#app");
   if (!app) {
@@ -421,6 +492,15 @@ function renderApp(): void {
           </div>
         </section>
       </main>
+      <section class="other-projects" aria-labelledby="other-projects-heading">
+        <div class="panel-heading">
+          <h2 id="other-projects-heading">Other projects</h2>
+          <p>More tools on GitHub Pages.</p>
+        </div>
+        <div class="project-grid">
+          ${renderOtherProjects()}
+        </div>
+      </section>
     </div>
   `;
 
