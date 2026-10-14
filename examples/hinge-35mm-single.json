@@ -2,8 +2,8 @@
   "plate": {
     "shape": "rectangle",
     "sizeMode": "fixed",
-    "width": 90,
-    "height": 60,
+    "width": 60,
+    "height": 90,
     "thickness": 2,
     "referenceEdges": {
       "x": "left",
@@ -12,10 +12,10 @@
   },
   "tabs": [
     {
-      "id": "tab-left",
+      "id": "tab-top",
       "enabled": true,
       "mode": "custom",
-      "side": "left",
+      "side": "top",
       "depth": 3,
       "height": 10,
       "length": 28,
@@ -29,8 +29,8 @@
       "diameter": 35,
       "position": {
         "mode": "absolute",
-        "x": 24,
-        "y": 30
+        "x": 30,
+        "y": 24
       }
     }
   ],

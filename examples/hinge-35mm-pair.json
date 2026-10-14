@@ -2,8 +2,8 @@
   "plate": {
     "shape": "rectangle",
     "sizeMode": "fixed",
-    "width": 90,
-    "height": 190,	
+    "width": 190,
+    "height": 90,
     "thickness": 2,
     "referenceEdges": {
       "x": "left",
@@ -12,34 +12,34 @@
   },
   "tabs": [
     {
-      "id": "tab-left",
+      "id": "tab-top",
       "enabled": true,
       "mode": "full",
-      "side": "left",
+      "side": "top",
       "depth": 3,
       "height": 10
     }
   ],
   "holes": [
     {
-      "id": "cup-top",
+      "id": "cup-1",
       "shape": "circle",
       "diameter": 35,
       "position": {
         "mode": "absolute",
-        "x": 24,
-        "y": 45
+        "x": 45,
+        "y": 24
       }
     },
     {
-      "id": "cup-bottom",
+      "id": "cup-2",
       "shape": "circle",
       "diameter": 35,
       "position": {
         "mode": "relative",
-        "from": "cup-top",
+        "from": "cup-1",
         "reference": "center",
-        "axis": "y",
+        "axis": "x",
         "distance": 95,
         "side": "positive"
       }

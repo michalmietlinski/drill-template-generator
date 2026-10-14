@@ -2,8 +2,8 @@
   "plate": {
     "shape": "rectangle",
     "sizeMode": "fixed",
-    "width": 40,
-    "height": 180,
+    "width": 180,
+    "height": 40,
     "thickness": 2,
     "referenceEdges": {
       "x": "left",
@@ -12,10 +12,10 @@
   },
   "tabs": [
     {
-      "id": "tab-left",
+      "id": "tab-top",
       "enabled": true,
       "mode": "custom",
-      "side": "left",
+      "side": "top",
       "depth": 3,
       "height": 10,
       "length": 90,
@@ -41,7 +41,7 @@
         "mode": "relative",
         "from": "p1",
         "reference": "center",
-        "axis": "y",
+        "axis": "x",
         "distance": 32,
         "side": "positive"
       }
@@ -54,7 +54,7 @@
         "mode": "relative",
         "from": "p2",
         "reference": "center",
-        "axis": "y",
+        "axis": "x",
         "distance": 32,
         "side": "positive"
       }
@@ -67,7 +67,7 @@
         "mode": "relative",
         "from": "p3",
         "reference": "center",
-        "axis": "y",
+        "axis": "x",
         "distance": 32,
         "side": "positive"
       }
@@ -80,7 +80,7 @@
         "mode": "relative",
         "from": "p4",
         "reference": "center",
-        "axis": "y",
+        "axis": "x",
         "distance": 32,
         "side": "positive"
       }

@@ -234,7 +234,7 @@ export const exampleAutoFitConfig: TemplateConfig = {
       depth: 14,
       height: 12,
       length: 38,
-      offset: 12
+      offset: 36
     },
     {
       id: "tab-left",

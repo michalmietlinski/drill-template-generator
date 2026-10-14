@@ -14,12 +14,10 @@
     {
       "id": "tab-top",
       "enabled": true,
-      "mode": "custom",
+      "mode": "full",
       "side": "top",
       "depth": 3,
-      "height": 10,
-      "length": 36,
-      "offset": 27
+      "height": 10
     }
   ],
   "holes": [
